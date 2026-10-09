@@ -3,7 +3,7 @@ import LoginLeftSide from "./LoginLeftSide";
 import { ArrowLeftIcon, EyeIcon, EyeOffIcon, Loader2Icon } from "lucide-react";
 import { useState } from "react";
 
-const LoginForm = ({ role, title, subtitle }) => {
+const LoginForm = ({ title, subtitle }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -48,7 +48,7 @@ const LoginForm = ({ role, title, subtitle }) => {
               </label>
               <input
                 type="email"
-                value={password}
+                value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
                 placeholder="john@example.com"
@@ -61,7 +61,7 @@ const LoginForm = ({ role, title, subtitle }) => {
               <div className="relative">
                 <input
                   type={showPassword ? "text" : "password"}
-                  value={email}
+                  value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   className="pr-11"
