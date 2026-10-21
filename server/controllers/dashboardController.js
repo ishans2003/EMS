@@ -5,7 +5,7 @@ import LeaveApplication from "../models/LeaveApplication.js";
 import Payslip from "../models/Payslip.js";
 
 //get dashboard for employee and admin
-get / api / dashboard;
+//get /api/dashboard;
 export const getDashboard = async (req, res) => {
   try {
     const session = req.session;
