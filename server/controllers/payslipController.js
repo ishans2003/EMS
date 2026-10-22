@@ -57,7 +57,7 @@ export const getPayslips = async (req,res) => {
             if(!employee) return res.status(404).json({
                 error:"Not found"
             })
-            const payslips = (await Payslip.find({employeeId:employee._id})).toSorted({createdAt: -1})
+            const payslips = await Payslip.find({employeeId:employee._id}).sort({createdAt: -1})
             return res.json({data:payslips})
         }
     } catch (error) {
