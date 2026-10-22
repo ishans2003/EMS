@@ -13,19 +13,20 @@ import dashboardRouter from "./routes/dashboardRoutes.js"
 
 import { serve } from "inngest/express";
 import { inngest, functions } from "./inngest/index.js"
+import { fileURLToPath } from "node:url"
 
 
 const app = express()
 const PORT = process.env.PORT || 4000;
 
 //middleware
-app.use(cors)
+app.use(cors())
 app.use(express.json())
 app.use(multer().none())
 
 
 //routes
-app.get("/",(req,res)=> res.send("Server is running"))
+app.get("/", (req, res) => res.status(200).send("Server is running"))
 app.use("/api/auth",authRouter)
 app.use("/api/employees",employeeRouter)
 app.use("/api/profile",profileRouter)
@@ -42,5 +43,12 @@ app.use("/api/inngest", serve({ client: inngest, functions }));
 
 
 
+// Vercel invokes the exported Express app as a serverless function; opening a
+// listening socket there prevents the function from serving requests correctly.
 await connectDB();
-app.listen(PORT,()=> console.log(`Server running on port ${PORT}`))
+
+if (process.env.VERCEL !== "1" && process.argv[1] === fileURLToPath(import.meta.url)) {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+
+export default app

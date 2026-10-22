@@ -107,7 +107,9 @@ export const getAttendance = async(req,res) => {
             })
         }
         const limit = parseInt(req.query.limit || 30)
-        const history = (await Attendance.find({employeeId: employee._id})).toSorted({date: -1}).limit(limit)
+        const history = await Attendance.find({employeeId: employee._id})
+            .sort({date: -1})
+            .limit(limit)
 
         return res.json({
             data: history,

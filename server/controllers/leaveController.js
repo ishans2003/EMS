@@ -50,7 +50,7 @@ export const createLeave = async (req,res) => {
 
         await inngest.send({
             name: "leave/pending",
-            data: {LeaveApplicationId: leave._id,}
+            data: {leaveApplicationId: leave._id.toString()}
         })
         return res.json({
             success: true,
@@ -72,7 +72,7 @@ export const getLeave = async (req,res) => {
          if(isAdmin){
             const status = req.query.status
             const where = status ? {status} : {}
-            const leaves = (await LeaveApplication.find(where).populate(employeeId)).toSorted({ createdAt: -1})
+            const leaves = (await LeaveApplication.find(where).populate("employeeId").sort({ createdAt: -1 }))
             const data = leaves.map((l)=>{
                 const obj = l.toObject()
                 return {
