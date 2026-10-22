@@ -63,9 +63,13 @@ const leaveApplicationReminder = inngest.createFunction(
   { id: "leave-application-reminder", triggers:[{ event: "leave/pending" }] },
   
   async ({ event, step }) => {
-    const { leaveApplicationId } = event.data ?? {};
+    const leaveApplicationId =
+      event?.data?.leaveApplicationId ?? event?.leaveApplicationId;
     if (!leaveApplicationId) {
-      throw new Error("leave/pending requires leaveApplicationId");
+      console.warn("Skipping leave/pending event without leaveApplicationId", {
+        eventId: event?.id,
+      });
+      return { status: "missing-leave-application-id" };
     }
 
     //wait for 24 hours
